@@ -40,19 +40,18 @@ public class Brick : MonoBehaviour {
 		GameObject smokePuff = Instantiate(smoke, transform.position, Quaternion.identity) as GameObject;
 		smokePuff.GetComponent<ParticleSystem>().startColor = gameObject.GetComponent<SpriteRenderer>().color;
 	}
-
+	
 	void HitHandler() {
 		hitCount++;
 		int maxHits = hitSprites.Length + 1;
 		if (hitCount >= maxHits){
-			breakableCount--;
-			levelManager.BrickDestroyed();
-			SmokeStart();
-			Destroy(gameObject);
+			breakableCount--;               //Decrement local count of breakable bricks.
+			levelManager.BrickDestroyed();  //Tell game to decrement brick count by 1
+			SmokeStart();                   //Start smoke FX
+			Destroy(gameObject);            //Remove the brick! 
 		}
 		else
-			LoadSprites();
-	}
+			LoadSprites();                  //Load in next damaged brick sprite. 	
 
 	void LoadSprites() {
 		int spriteIndex = hitCount - 1;
