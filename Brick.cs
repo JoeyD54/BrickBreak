@@ -26,7 +26,8 @@ public class Brick : MonoBehaviour {
 	void Update () {
 	
 	}
-
+	
+	//When hitting walls, play first sound, else play brick break sound.
 	private void OnCollisionEnter2D(Collision2D col) {
 		if(hitCount < hitSprites.Length + 1)
 			AudioSource.PlayClipAtPoint(punch, transform.position);
@@ -36,11 +37,13 @@ public class Brick : MonoBehaviour {
 			HitHandler();
 	}
 
+	//This creates the smoke effects once a brick is destroyed. The smoke is the same color as the brick.
 	void SmokeStart() {
 		GameObject smokePuff = Instantiate(smoke, transform.position, Quaternion.identity) as GameObject;
 		smokePuff.GetComponent<ParticleSystem>().startColor = gameObject.GetComponent<SpriteRenderer>().color;
 	}
 	
+	//This keeps track of how many times a brick has been hit and will destroy it when the hits count reaches 0.
 	void HitHandler() {
 		hitCount++;
 		int maxHits = hitSprites.Length + 1;
@@ -53,6 +56,7 @@ public class Brick : MonoBehaviour {
 		else
 			LoadSprites();                  //Load in next damaged brick sprite. 	
 
+	//Swaps brick sprites with more damaged states with each hit.
 	void LoadSprites() {
 		int spriteIndex = hitCount - 1;
 		if(hitSprites[spriteIndex])
